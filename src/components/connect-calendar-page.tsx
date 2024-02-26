@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 
 const loggedInCookieName = 'is-logged-in'
-const getIsLoggedInCookie = () => Boolean(Cookies.get(loggedInCookieName))
+const getIsLoggedInCookie = () =>
+  Cookies.get(loggedInCookieName) === 'true' || false
 
 const ConnectCalendarPage: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(getIsLoggedInCookie())
@@ -22,14 +23,19 @@ const ConnectCalendarPage: React.FC = () => {
     }
   }
 
-  const handleDisconnectCalendar = () => {
-    Cookies.remove(loggedInCookieName)
-    setIsLoggedIn(getIsLoggedInCookie())
+  const handleDisconnectCalendar = async () => {
+    try {
+      await axios.post('http://localhost:8080/revoke-credentials')
+      Cookies.remove(loggedInCookieName)
+      setIsLoggedIn(false)
+    } catch (error) {
+      // todo: handle error
+    }
   }
 
   return (
     <div>
-      <h2>Connect Your Calendar</h2>
+      <h2>Calendar</h2>
 
       {isLoggedIn ? (
         <div>

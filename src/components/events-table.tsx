@@ -1,4 +1,5 @@
 import React from 'react'
+import useFetchEventList from '../hooks/use-fetch-event-list'
 
 interface Event {
   name: string
@@ -7,11 +8,20 @@ interface Event {
   location: string
 }
 
-interface Props {
-  events: Event[]
-}
+const EventsTable: React.FC = () => {
+  const { eventList, loading, error } = useFetchEventList<Event>([])
 
-const EventsTable: React.FC<Props> = ({ events }) => {
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+      return <div>Error: {(error as Error).message}</div>
+  }
+
+  console.log({ eventList })
+  
+  
   return (
     <div>
       <h2>Next 10 Calendar Events</h2>
@@ -25,7 +35,7 @@ const EventsTable: React.FC<Props> = ({ events }) => {
           </tr>
         </thead>
         <tbody>
-          {events.map((event, index) => (
+          {eventList.map((event, index) => (
             <tr key={index}>
               <td>{event.name}</td>
               <td>{event.date}</td>

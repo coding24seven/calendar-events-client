@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
+import EventsTable from './events-table'
 
 const loggedInCookieName = 'is-logged-in'
 const getIsLoggedInCookie = () =>
@@ -42,7 +43,7 @@ const ConnectCalendarPage: React.FC = () => {
           <button onClick={handleDisconnectCalendar}>
             Disconnect Calendar
           </button>
-          <div>show next 10 events here</div>
+          <EventsTable/>
         </div>
       ) : (
         <button onClick={handleConnectCalendar}>Connect Calendar</button>

@@ -19,9 +19,6 @@ const EventsTable: React.FC = () => {
       return <div>Error: {(error as Error).message}</div>
   }
 
-  console.log({ eventList })
-  
-  
   return (
     <div>
       <h2>Next 10 Calendar Events</h2>

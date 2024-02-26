@@ -1,8 +1,17 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
+
+const loggedInCookieName = 'is-logged-in'
+const getIsLoggedInCookie = () => Boolean(Cookies.get(loggedInCookieName))
 
 const ConnectCalendarPage: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(getIsLoggedInCookie())
+
+  useEffect(() => {
+    setIsLoggedIn(getIsLoggedInCookie())
+    console.log('is logged in state', isLoggedIn)
+  })
 
   const handleConnectCalendar = async () => {
     try {
@@ -14,7 +23,8 @@ const ConnectCalendarPage: React.FC = () => {
   }
 
   const handleDisconnectCalendar = () => {
-    //
+    Cookies.remove(loggedInCookieName)
+    setIsLoggedIn(getIsLoggedInCookie())
   }
 
   return (

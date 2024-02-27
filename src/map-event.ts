@@ -3,6 +3,7 @@ import type { CalendarEvent, MappedCalendarEvent } from './types'
 export function mapEvent(event: CalendarEvent): MappedCalendarEvent {
 
   return {
+    id: event.id,
     name: event.summary,
     date: new Date(event.start.dateTime).toLocaleString(),
     attendees: event.attendees?.map(({ email }) => email).join(', '),

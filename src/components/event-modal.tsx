@@ -1,37 +1,33 @@
 import React from 'react'
-
-interface Event {
-  name: string
-  date: string
-  attendees: string[]
-  location: string
-  summary: string
-  // Include other event details
-}
+import Modal from 'react-modal'
+import type { MappedCalendarEvent } from '../types'
 
 interface Props {
   event: Event
   onClose: () => void
 }
 
-const EventModal: React.FC<Props> = ({ event, onClose }) => {
+const EventModal: React.FC<Props> = ({
+  event,
+  onClose,
+}: {
+  event: MappedCalendarEvent
+  onClose: () => void
+}) => {
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <span
-          className="close"
-          onClick={onClose}
-        >
-          &times;
-        </span>
-        <h2>{event.name}</h2>
-        <p>Date: {event.date}</p>
-        <p>Attendees: {event.attendees.join(', ')}</p>
-        <p>Location: {event.location}</p>
-        <p>Summary: {event.summary}</p>
-        {/* Include other event details */}
-      </div>
-    </div>
+    <Modal
+      isOpen={modalIsOpen}
+      onAfterOpen={afterOpenModal}
+      onRequestClose={closeModal}
+      style={customStyles}
+      contentLabel="Example Modal"
+    >
+      {/* <h2>{event.name}</h2>
+      <p>Date: {event.date}</p>
+      <p>Attendees: {event.attendees.join(', ')}</p>
+      <p>Location: {event.location}</p>
+      <p>Summary: {event.summary}</p> */}
+    </Modal>
   )
 }
 

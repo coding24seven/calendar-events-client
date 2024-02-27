@@ -1,7 +1,7 @@
 import React from 'react'
 import useFetchEventList from '../hooks/use-fetch-event-list'
-import { mapEvent } from '../map-event'
 import { CalendarEvent } from '../types'
+import EventList from './event-list'
 
 const EventsTable: React.FC = () => {
   const { eventList, loading, error } = useFetchEventList<CalendarEvent>([], 10)
@@ -18,10 +18,6 @@ const EventsTable: React.FC = () => {
     return <div>Event List has wrong structure</div>
   }
 
-  console.log({ eventList })
-
-  const mappedEventList = eventList.map(mapEvent)
-
   return (
     <div>
       <h2>Next 10 Calendar Events</h2>
@@ -35,14 +31,7 @@ const EventsTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {mappedEventList.map((event, index) => (
-            <tr key={index}>
-              <td>{event.name}</td>
-              <td>{event.date}</td>
-              <td>{event.attendees}</td>
-              <td>{event.location}</td>
-            </tr>
-          ))}
+          <EventList list={eventList} />
         </tbody>
       </table>
     </div>

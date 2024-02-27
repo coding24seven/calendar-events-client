@@ -9,15 +9,21 @@ interface Event {
 }
 
 const EventsTable: React.FC = () => {
-  const { eventList, loading, error } = useFetchEventList<Event>([])
+  const { eventList, loading, error } = useFetchEventList<Event>([], 10)
 
   if (loading) {
     return <div>Loading...</div>
   }
 
   if (error) {
-      return <div>Error: {(error as Error).message}</div>
+    return <div>Error: {(error as Error).message}</div>
   }
+
+  if (!(eventList instanceof Array)) {
+    return <div>Event List has wrong structure</div>
+  }
+
+  console.log({ eventList })
 
   return (
     <div>
@@ -36,7 +42,7 @@ const EventsTable: React.FC = () => {
             <tr key={index}>
               <td>{event.name}</td>
               <td>{event.date}</td>
-              <td>{event.attendees.join(', ')}</td>
+              <td>{event.attendees?.join(', ')}</td>
               <td>{event.location}</td>
             </tr>
           ))}

@@ -1,15 +1,10 @@
 import React from 'react'
 import useFetchEventList from '../hooks/use-fetch-event-list'
-
-interface Event {
-  name: string
-  date: string
-  attendees: string[]
-  location: string
-}
+import { mapEvent } from '../map-event'
+import { CalendarEvent } from '../types'
 
 const EventsTable: React.FC = () => {
-  const { eventList, loading, error } = useFetchEventList<Event>([], 10)
+  const { eventList, loading, error } = useFetchEventList<CalendarEvent>([], 10)
 
   if (loading) {
     return <div>Loading...</div>
@@ -25,6 +20,8 @@ const EventsTable: React.FC = () => {
 
   console.log({ eventList })
 
+  const mappedEventList = eventList.map(mapEvent)
+
   return (
     <div>
       <h2>Next 10 Calendar Events</h2>
@@ -38,11 +35,11 @@ const EventsTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {eventList.map((event, index) => (
+          {mappedEventList.map((event, index) => (
             <tr key={index}>
               <td>{event.name}</td>
               <td>{event.date}</td>
-              <td>{event.attendees?.join(', ')}</td>
+              <td>{event.attendees}</td>
               <td>{event.location}</td>
             </tr>
           ))}

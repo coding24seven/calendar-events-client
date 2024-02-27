@@ -21,13 +21,13 @@ const EventsTable: React.FC = () => {
   return (
     <div>
       <h2>Next 10 Calendar Events</h2>
-      <table>
+      <table style={tableStyle}>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Attendees</th>
-            <th>Location</th>
+            <th style={thStyles}>Name</th>
+            <th style={thStyles}>Date</th>
+            <th style={thStyles}>Attendees</th>
+            <th style={thStyles}>Location</th>
           </tr>
         </thead>
         <tbody>
@@ -36,6 +36,16 @@ const EventsTable: React.FC = () => {
       </table>
     </div>
   )
+}
+
+const tableStyle: React.CSSProperties = {
+  borderCollapse: 'collapse',
+}
+
+const thStyles: React.CSSProperties = {
+  padding: '8px',
+  textAlign: 'left',
+  border: '1px solid white',
 }
 
 export default EventsTable

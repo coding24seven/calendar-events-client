@@ -99,7 +99,7 @@ const modalStyles = {
   },
 }
 
-const rowStyles = {
+const rowStyles: React.CSSProperties = {
   cursor: 'pointer',
 }
 

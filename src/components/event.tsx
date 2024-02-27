@@ -20,9 +20,20 @@ const CalendarEventCell: React.FC<EventProps> = ({
 
   return (
     <>
-      <td onClick={handleClick}>{value}</td>
+      <td
+        style={tdStyles}
+        onClick={handleClick}
+      >
+        {value}
+      </td>
     </>
   )
+}
+
+const tdStyles: React.CSSProperties = {
+  padding: '8px',
+  textAlign: 'left',
+  border: '1px solid white',
 }
 
 export default CalendarEventCell

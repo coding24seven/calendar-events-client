@@ -14,10 +14,6 @@ const EventsTable: React.FC = () => {
     return <div>Error: {(error as Error).message}</div>
   }
 
-  if (!(eventList instanceof Array)) {
-    return <div>Event List has wrong structure</div>
-  }
-
   return (
     <div>
       <h2>Next 10 Calendar Events</h2>

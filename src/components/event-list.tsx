@@ -47,8 +47,6 @@ const EventList: React.FC<EventListProps> = ({ list }) => {
     setModalIsOpen(false)
   }
 
-  console.log(activeEvent)
-
   const modalIsRendered = modalIsOpen && activeEvent
 
   return (

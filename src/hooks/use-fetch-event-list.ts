@@ -9,6 +9,8 @@ const useFetchEventList = <T>(initialState: T[] = [], maxResults: number) => {
   const [error, setError] = useState<unknown>(null)
 
   useEffect(() => {
+    console.log('useEffect')
+
     const fetchEventList = async () => {
       if (maxResults) {
         url += `?max_results=${maxResults}`
@@ -16,12 +18,18 @@ const useFetchEventList = <T>(initialState: T[] = [], maxResults: number) => {
 
       try {
         const response = await axios.get<T[]>(url)
-        setEventList(response.data)
-        console.log('event list', eventList)
+        console.log('!!!', response.data instanceof Array)
 
-        setLoading(false)
+        if (response.data instanceof Array) {
+          setEventList(response.data)
+        } else {
+          throw new Error(
+            'Missing event list. Reconnect and grant required calendar permissions to this app.'
+          )
+        }
       } catch (error) {
         setError(error)
+      } finally {
         setLoading(false)
       }
     }

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import ConnectCalendarPage from './components/connect-calendar-page'
 

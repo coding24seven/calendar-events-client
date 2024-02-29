@@ -18,6 +18,7 @@ const ConnectCalendarPage: React.FC = () => {
   const handleConnectCalendar = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_AUTH_PAGE_URL)
+      console.log('response.data', response.data)
 
       if (response.data) {
         window.location.href = response.data

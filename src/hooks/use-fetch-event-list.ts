@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-let url = 'http://localhost:8080/event-list'
+let url = import.meta.env.VITE_EVENT_LIST_URL
 
 const useFetchEventList = <T>(initialState: T[] = [], maxResults: number) => {
   const [eventList, setEventList] = useState<T[]>(initialState)

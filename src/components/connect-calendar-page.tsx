@@ -17,7 +17,7 @@ const ConnectCalendarPage: React.FC = () => {
 
   const handleConnectCalendar = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/auth-page-url')
+      const response = await axios.get(import.meta.env.VITE_AUTH_PAGE_URL)
       window.location.href = response.data
     } catch (error) {
       // todo: handle error
@@ -26,7 +26,7 @@ const ConnectCalendarPage: React.FC = () => {
 
   const handleDisconnectCalendar = async () => {
     try {
-      await axios.post('http://localhost:8080/revoke-credentials')
+      await axios.post(import.meta.env.VITE_REVOKE_CREDENTIALS_URL)
       Cookies.remove(loggedInCookieName)
       setIsLoggedIn(false)
     } catch (error) {
@@ -43,7 +43,7 @@ const ConnectCalendarPage: React.FC = () => {
           <button onClick={handleDisconnectCalendar}>
             Disconnect Calendar
           </button>
-          <EventsTable/>
+          <EventsTable />
         </div>
       ) : (
         <button onClick={handleConnectCalendar}>Connect Calendar</button>

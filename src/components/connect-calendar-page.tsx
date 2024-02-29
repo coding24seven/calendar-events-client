@@ -44,11 +44,16 @@ const ConnectCalendarPage: React.FC = () => {
     <div>
       <h2>Calendar</h2>
 
-      <div>
-        <button onClick={handleDisconnectCalendar}>Disconnect Calendar</button>
-        <EventsTable />
-      </div>
-      <button onClick={handleConnectCalendar}>Connect Calendar</button>
+      {isLoggedIn ? (
+        <div>
+          <button onClick={handleDisconnectCalendar}>
+            Disconnect Calendar
+          </button>
+          <EventsTable />
+        </div>
+      ) : (
+        <button onClick={handleConnectCalendar}>Connect Calendar</button>
+      )}
     </div>
   )
 }

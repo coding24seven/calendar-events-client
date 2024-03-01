@@ -19,7 +19,7 @@ const ConnectCalendarPage: React.FC = () => {
 
     if (sessionIdQueryParam) {
       setSessionId(sessionIdQueryParam)
-      Cookies.set(sessionIdCookieName, sessionIdQueryParam)
+      Cookies.set(sessionIdCookieName, sessionIdQueryParam, { expires: 1 / 24 })
     }
   })
 

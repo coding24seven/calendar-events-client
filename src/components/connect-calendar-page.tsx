@@ -1,19 +1,26 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import EventsTable from './events-table'
-import { handleSessionIdQueryParam } from '../utils/query-params'
+import {
+  addSessionIdQueryParam,
+  readSessionIdQueryParam,
+} from '../utils/query-params'
+import Cookies from 'js-cookie'
+
+const sessionIdCookieName = 'session-id'
 
 const ConnectCalendarPage: React.FC = () => {
-  const [sessionId, setSessionId] = useState<string | null>()
+  const [sessionId, setSessionId] = useState<string | null | undefined>(
+    Cookies.get(sessionIdCookieName)
+  )
 
   useEffect(() => {
-    const sessionIdQueryParam = handleSessionIdQueryParam()
+    const sessionIdQueryParam = readSessionIdQueryParam()
 
     if (sessionIdQueryParam) {
       setSessionId(sessionIdQueryParam)
+      Cookies.set(sessionIdCookieName, sessionIdQueryParam)
     }
-
-    console.log('has sessionId in state', sessionId)
   })
 
   const handleConnectCalendar = async () => {
@@ -31,11 +38,24 @@ const ConnectCalendarPage: React.FC = () => {
   }
 
   const handleDisconnectCalendar = async () => {
+    if (!sessionId) {
+      Cookies.remove(sessionIdCookieName)
+
+      return
+    }
+
+    const url = addSessionIdQueryParam(
+      import.meta.env.VITE_REVOKE_CREDENTIALS_URL,
+      sessionId
+    )
+
     try {
-      await axios.post(import.meta.env.VITE_REVOKE_CREDENTIALS_URL)
-      setSessionId(null)
+      await axios.post(url)
     } catch (error) {
-      // todo: handle error
+      console.error(error)
+    } finally {
+      Cookies.remove(sessionIdCookieName)
+      setSessionId(null)
     }
   }
 
@@ -48,7 +68,7 @@ const ConnectCalendarPage: React.FC = () => {
           <button onClick={handleDisconnectCalendar}>
             Disconnect Calendar
           </button>
-          <EventsTable />
+          <EventsTable sessionId={sessionId} />
         </div>
       ) : (
         <button onClick={handleConnectCalendar}>Connect Calendar</button>

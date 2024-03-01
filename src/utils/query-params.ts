@@ -1,8 +1,7 @@
-export const handleSessionIdQueryParam = () => {
+export const readSessionIdQueryParam = () => {
   const queryParams = new URLSearchParams(window.location.search)
   const sessionIdQueryParam = queryParams.get('sessionId')
   removeSessionIdFromUrlBar()
-  console.log('has sessionId', sessionIdQueryParam)
 
   return sessionIdQueryParam
 }
@@ -17,4 +16,11 @@ const removeSessionIdFromUrlBar = () => {
   }
 
   window.history.replaceState({}, document.title, newUrl)
+}
+
+export const addSessionIdQueryParam = (baseUrl: string, sessionId: string) => {
+  const params = new URLSearchParams()
+  params.append('sessionId', sessionId)
+
+  return `${baseUrl}?${params.toString()}`
 }

@@ -3,8 +3,16 @@ import useFetchEventList from '../hooks/use-fetch-event-list'
 import { CalendarEvent } from '../types'
 import EventList from './event-list'
 
-const EventsTable: React.FC = () => {
-  const { eventList, loading, error } = useFetchEventList<CalendarEvent>([], 10)
+interface EventsTableProps {
+  sessionId: string | null | undefined
+}
+
+const EventsTable: React.FC<EventsTableProps> = ({ sessionId }) => {
+  const { eventList, loading, error } = useFetchEventList<CalendarEvent>(
+    [],
+    sessionId,
+    10
+  )
 
   if (loading) {
     return <div>Loading...</div>

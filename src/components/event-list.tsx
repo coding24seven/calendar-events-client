@@ -32,16 +32,11 @@ const EventList: React.FC<EventListProps> = ({ list }) => {
     MappedCalendarEvent | null | undefined
   >()
   const [modalIsOpen, setModalIsOpen] = useState(false)
-
-  console.log({ list })
   const mappedEventList = list.map(mapEvent)
-  console.log(mappedEventList)
-
   const handleClick = (id: string) => {
     setActiveEvent(mappedEventList.find((item) => item.id === id))
     setModalIsOpen(true)
   }
-
   const closeModal = () => {
     setActiveEvent(null)
     setModalIsOpen(false)

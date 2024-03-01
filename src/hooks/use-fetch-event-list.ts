@@ -3,16 +3,29 @@ import axios from 'axios'
 
 let url = import.meta.env.VITE_EVENT_LIST_URL
 
-const useFetchEventList = <T>(initialState: T[] = [], maxResults: number) => {
+const useFetchEventList = <T>(
+  initialState: T[] = [],
+  sessionId: string | null | undefined,
+  maxResults: number
+) => {
   const [eventList, setEventList] = useState<T[]>(initialState)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<unknown>(null)
 
   useEffect(() => {
     const fetchEventList = async () => {
-      if (maxResults) {
-        url += `?max_results=${maxResults}`
+      if (!sessionId) {
+        return []
       }
+
+      const params = new URLSearchParams()
+      params.append('sessionId', sessionId)
+
+      if (maxResults) {
+        params.append('maxResults', maxResults.toString())
+      }
+
+      url += `?${params.toString()}`
 
       try {
         const response = await axios.get<T[]>(url)
@@ -32,7 +45,7 @@ const useFetchEventList = <T>(initialState: T[] = [], maxResults: number) => {
     }
 
     fetchEventList()
-  }, [maxResults])
+  }, [maxResults, sessionId])
 
   return { eventList, loading, error }
 }

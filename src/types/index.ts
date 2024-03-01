@@ -18,7 +18,8 @@ interface CalendarEvent {
     self: boolean
   }
   start: {
-    dateTime: string
+    date?: string
+    dateTime?: string
     timeZone: string
   }
   end: {

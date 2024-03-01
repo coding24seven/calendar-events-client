@@ -9,8 +9,6 @@ const useFetchEventList = <T>(initialState: T[] = [], maxResults: number) => {
   const [error, setError] = useState<unknown>(null)
 
   useEffect(() => {
-    console.log('useEffect')
-
     const fetchEventList = async () => {
       if (maxResults) {
         url += `?max_results=${maxResults}`
@@ -18,7 +16,6 @@ const useFetchEventList = <T>(initialState: T[] = [], maxResults: number) => {
 
       try {
         const response = await axios.get<T[]>(url)
-        console.log('!!!', response.data instanceof Array)
 
         if (response.data instanceof Array) {
           setEventList(response.data)
@@ -35,7 +32,7 @@ const useFetchEventList = <T>(initialState: T[] = [], maxResults: number) => {
     }
 
     fetchEventList()
-  }, [])
+  }, [maxResults])
 
   return { eventList, loading, error }
 }

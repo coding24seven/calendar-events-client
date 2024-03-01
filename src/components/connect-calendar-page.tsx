@@ -1,18 +1,19 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
 import EventsTable from './events-table'
-
-const loggedInCookieName = 'is-logged-in'
-const getIsLoggedInCookie = () =>
-  Cookies.get(loggedInCookieName) === 'true' || false
+import { handleSessionIdQueryParam } from '../utils/query-params'
 
 const ConnectCalendarPage: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(getIsLoggedInCookie())
+  const [sessionId, setSessionId] = useState<string | null>()
 
   useEffect(() => {
-    setIsLoggedIn(getIsLoggedInCookie())
-    console.log('is logged in state', isLoggedIn)
+    const sessionIdQueryParam = handleSessionIdQueryParam()
+
+    if (sessionIdQueryParam) {
+      setSessionId(sessionIdQueryParam)
+    }
+
+    console.log('has sessionId in state', sessionId)
   })
 
   const handleConnectCalendar = async () => {
@@ -32,8 +33,7 @@ const ConnectCalendarPage: React.FC = () => {
   const handleDisconnectCalendar = async () => {
     try {
       await axios.post(import.meta.env.VITE_REVOKE_CREDENTIALS_URL)
-      Cookies.remove(loggedInCookieName)
-      setIsLoggedIn(false)
+      setSessionId(null)
     } catch (error) {
       // todo: handle error
     }
@@ -43,7 +43,7 @@ const ConnectCalendarPage: React.FC = () => {
     <div>
       <h2>Calendar</h2>
 
-      {isLoggedIn ? (
+      {sessionId ? (
         <div>
           <button onClick={handleDisconnectCalendar}>
             Disconnect Calendar

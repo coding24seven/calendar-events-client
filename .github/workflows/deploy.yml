@@ -31,7 +31,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: calendar-events
-        IMAGE_TAG: calendar-events-image
+        IMAGE_TAG: calendar-events-client-image
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./Dockerfile.prod .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
